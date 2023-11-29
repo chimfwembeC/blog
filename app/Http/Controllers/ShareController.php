@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Share;
+use App\Models\Post;
 
 class ShareController extends Controller
 {
@@ -12,7 +14,7 @@ class ShareController extends Controller
     public function index()
     {
         // Fetch and return all shares
-        $shares = Share::all();
+        $shares = Share::paginate(15);
         return view('shares.index', compact('shares'));
     }
     /**
@@ -47,6 +49,8 @@ class ShareController extends Controller
     public function show(string $id)
     {
         //
+        $post = Post::findOrFail($id);
+        return view('shares.create', compact('post'));
     }
 
     /**

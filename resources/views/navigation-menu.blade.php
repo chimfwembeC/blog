@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.index')">
                         {{ __('My Posts') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('shares.index') }}" :active="request()->routeIs('shares.index')">
+                        {{ __('shared Posts') }}
+                    </x-nav-link>
                 </div>
             </div>
 

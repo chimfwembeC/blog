@@ -127,7 +127,8 @@
 
                                                 <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-200 w-full text-left">Delete</button>
                                             </form>
-                                                <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-200 w-full text-left">Share</button>
+                                               
+                                                <a href="{{ route('shares.show', $post->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-200 w-full text-left">Share</a>
                                             </div>
                                         </div>
                                     </div>

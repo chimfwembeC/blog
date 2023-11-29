@@ -27,10 +27,13 @@ Route::get('/', function () {
 
 Route::resource('posts', PostController::class);
 Route::resource('comments', CommentController::class);
-Route::post('likePost/{postId}', [LikeController::class, 'likePost'])->name('likePost');
-
-Route::post('/comments/{comment}/like', 'LikeController@likeComment')->name('likeComment');
 Route::resource('shares', ShareController::class);
+
+
+Route::post('likePost/{postId}', [LikeController::class, 'likePost'])->name('likePost');
+Route::post('/comments/{comment}/like', 'LikeController@likeComment')->name('likeComment');
+// Route::post('/shares/{share}', 'ShareController@sharePost')->name('shares.sharePost');
+
 
 
 
