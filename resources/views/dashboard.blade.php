@@ -23,6 +23,7 @@
                                     <p>{{ $post->comment }}</p>
                                     <p class="text-dark bold">posted by - {{ $post->user->name }}</p>
                                     <p class="text-gray-700">Likes: {{ $post->likes->count() }}</p>
+                                    <p class="text-gray-700">Shares: {{ $post->shares->count() }}</p>
                                 </div>
 
                                 <!-- Comment form for each post -->

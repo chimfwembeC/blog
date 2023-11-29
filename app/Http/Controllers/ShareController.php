@@ -14,7 +14,9 @@ class ShareController extends Controller
     public function index()
     {
         // Fetch and return all shares
-        $shares = Share::paginate(15);
+        $shares = Share::where('user_id', auth()->id())
+        ->latest()
+        ->paginate(10);
         return view('shares.index', compact('shares'));
     }
     /**
@@ -31,10 +33,7 @@ class ShareController extends Controller
     public function store(Request $request)
     {
         // Validate and store the new share
-        $request->validate([
-            // Your validation rules here
-        ]);
-
+     
         Share::create([
             'user_id' => auth()->id(),
             'post_id' => $request->post_id,
