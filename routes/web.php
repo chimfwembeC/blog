@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ShareController;
 use App\Http\Controllers\LikeController;
 use App\Models\Post;
 
@@ -28,6 +29,8 @@ Route::resource('posts', PostController::class);
 Route::resource('comments', CommentController::class);
 Route::post('likePost/{postId}', [LikeController::class, 'likePost'])->name('likePost');
 
+Route::post('/comments/{comment}/like', 'LikeController@likeComment')->name('likeComment');
+Route::resource('shares', ShareController::class);
 
 
 
@@ -38,7 +41,7 @@ Route::middleware([
 ])->group(function () {      
     Route::get('/dashboard', function () {
         $posts = Post::latest()
-        ->paginate(10);
+        ->paginate(15);
 
         return view('dashboard', compact('posts'));
     })->name('dashboard');

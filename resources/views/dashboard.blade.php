@@ -12,14 +12,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="overflow-hidden shadow-xl sm:rounded-lg">
             <div class="overflow-hidden shadow-xl sm:rounded-lg">          
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach($posts as $post)
                         <div class="col-span-1 relative">
-                            <div class="py-2 text-sm text-gray-700 bg-white-500 p-4 rounded-lg shadow-md">
+                            <div class="py-2 text-sm text-gray-700 bg-white p-4 rounded-lg shadow-md">
                                 <div class="mb-4">
-                                    <h3 class="text-lg py-2 text-sm text-gray-700 bg-gray-200 font-semibold mb-2">{{ $post->title }}</h3>
+                                    <h3 class="text-lg py-2 text-sm text-gray-700 bg-white-200 font-semibold mb-2">{{ $post->title }}</h3>
                                     <p>{{ $post->comment }}</p>
                                     <p class="text-dark bold">posted by - {{ $post->user->name }}</p>
                                     <p class="text-gray-700">Likes: {{ $post->likes->count() }}</p>
@@ -42,7 +42,7 @@
 
                                 <!-- Display comments for the post -->
                                 @foreach($post->comments as $comment)
-                                    <div class="mt-2 py-2 text-sm text-gray-700 bg-white-500 p-4 rounded-lg shadow-md">
+                                    <div class="mt-2 py-2 text-sm text-gray-700 bg-gray-100 p-4 rounded-lg shadow-md">
                                         <p class="text-gray-700">{{ $comment->content }}</p>
                                         <p class="text-dark bold">Commented by - {{ $comment->user->name }}</p>                                        
                                     </div>

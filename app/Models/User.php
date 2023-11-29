@@ -9,7 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\Share;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Like;
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -28,7 +31,22 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+    public function shares()
+    {
+        return $this->hasMany(Share::class);
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
