@@ -42,9 +42,9 @@
                                         </p>
                                     </div>
                                     <p class="text-dark bold">shareed by - {{ $share->user->name }}</p>
-                                    <p class="text-gray-700">Likes: {{ $share->post->likes->count() }}</p>
-                                    <p class="text-gray-700">Shares: {{ $share->post->shares->count() }}</p>
-                                </div>
+                                    <span class="text-gray-700 lead-none inline-block font-semibold px-2 py-1 rounded-full">Likes: {{ $share->post->likes->count() }}</span>
+                                    <span class="text-gray-700 lead-none inline-block font-semibold px-2 py-1 rounded-full ms-2">Shares: {{ $share->post->shares->count() }}<spanp>
+                                </divspan
 
 
                                 <!-- Dropdown menu for actions -->

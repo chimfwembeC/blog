@@ -45,7 +45,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         $posts = Post::latest()
         ->paginate(15);
+        $postCount = Post::count();
 
-        return view('dashboard', compact('posts'));
+        return view('dashboard', compact('posts'), compact('postCount'));
     })->name('dashboard');
 });

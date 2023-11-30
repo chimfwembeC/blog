@@ -13,17 +13,30 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow-xl sm:rounded-lg">
+                <div class=" bg-white p-4 sm:rounded-lg mb-3">
+                    <div class="flex justify-between items-center py-2 px-4">
+                        <p class="text-bold text-uppercase text-4xl">Blog feed</p>
+                        <p class="text-bold text-uppercase text-4xl">All blog posts: {{ $postCount }}</p>                
+                    </div>
+
+                </div>
             <div class="overflow-hidden shadow-xl sm:rounded-lg">          
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 gap-4">
                     @foreach($posts as $post)
                         <div class="col-span-1 relative">
                             <div class="py-2 text-sm text-gray-700 bg-white p-4 rounded-lg shadow-md">
                                 <div class="mb-4">
-                                    <h3 class="text-lg py-2 text-sm text-gray-700 bg-white-200 font-semibold mb-2">{{ $post->title }}</h3>
-                                    <p>{{ $post->comment }}</p>
-                                    <p class="text-dark bold">posted by - {{ $post->user->name }}</p>
-                                    <p class="text-gray-700">Likes: {{ $post->likes->count() }}</p>
-                                    <p class="text-gray-700">Shares: {{ $post->shares->count() }}</p>
+                                    <h3 class=" font-bold font-captalise lead-none bg-blue-200 inline-block font-semibold px-4 py-1 rounded-full text-blue-800 p-1 text-xl m-2">{{ $post->title }}</h3>
+                                    <p class="text-gray-700 bg-gray-200 p-4 m-2 rounded-full  shadow-md">{{ $post->comment }}</p>
+                                    <p class=" font-bold font-captalise lead-none inline-block font-semibold px-2 py-1 text-gray-500 p-1 mb-2 text-lg mx-2 w-full text-end">Posted by - {{ $post->user->name }}</p> <br>
+                                    @php
+                                        $isLiked = auth()->user() ? $post->likes->contains('user_id', auth()->user()->id) : false;
+                                    @endphp
+                                    <span class="text-gray-700 ms-2 lead-none text-gray-500 inline-block font-semibold px-2 py-1 rounded-full hover:bg-blue-200  @if($isLiked) text-white  bg-green-500 @else bg-blue-200 @endif">{{ $isLiked ? 'Liked' : 'Likes'}} | {{ $post->likes->count() }} </span>                                                            
+                                    @php
+                                        $isShared = auth()->user() ? $post->shares->contains('user_id', auth()->user()->id) : false;
+                                    @endphp
+                                    <span class="lead-none text-white inline-block font-semibold px-2 py-1 rounded-full @if($isShared) bg-orange-500 text-gray-800 @else  bg-yellow-500  @endif">{{ $isShared ? 'Shared' : 'share' }} | {{ $post->shares->count() }}</span>                                  
                                 </div>
 
                                 <!-- Comment form for each post -->
@@ -35,18 +48,37 @@
                                         <label for="comment" class="block text-sm font-medium text-gray-700">Add a comment:</label>
                                         <textarea id="comment" name="comment" rows="2" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                                     </div>
-
-                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Submit Comment
-                                    </button>
+                                    <div class="w-full text-end">
+                                        <button type="submit" class="bg-blue-500 rounded-full hover:bg-blue-700 text-white font-bold py-2 px-4">
+                                            Submit Comment
+                                        </button>
+                                    </div>
+                                   
                                 </form>
 
                                 <!-- Display comments for the post -->
                                 @foreach($post->comments as $comment)
-                                    <div class="mt-2 py-2 text-sm text-gray-700 bg-gray-100 p-4 rounded-lg shadow-md">
-                                        <p class="text-gray-700">{{ $comment->content }}</p>
-                                        <p class="text-dark bold">Commented by - {{ $comment->user->name }}</p>                                        
-                                    </div>
+                                    @php
+                                        $isCommented = auth()->user() ? $post->comments->contains('user_id', auth()->user()->id) : false;
+                                    @endphp
+                                    @if ($isCommented)
+                                        <div class="mt-2 py-2 text-sm p-4 shadow-md p-6 @if($isCommented) text-gray-700 bg-green-100 @else bg-gray-200 @endif">
+                                            <p class="text-gray-700 bg-white p-4 m-2 rounded-full shadow-md">{{ $comment->content }}</p>
+                                            <p class="m-2 lead-none inline-block font-semibold px-2 py-1 rounded-full bg-gray-200 ">
+                                                <span class="text-gray-800 lead-none inline-block font-semibold px-2 py-1 rounded-full">You Commented</span> 
+                                                <span class="text-green-500">{{ $comment->user->name }}</span>
+                                            </p>  
+                                        </div>                                            
+                                        @else
+                                        <div class="mt-2 py-2 text-sm p-4 rounded-lg shadow-md text-gray-700 bg-gray-100">
+                                            <p class="text-gray-700 bg-white p-4 m-2  shadow-md">{{ $comment->content }}</p>                                            
+                                            <p class="m-2 lead-none inline-block font-semibold px-2 py-1 rounded-full bg-gray-200 ">
+                                                <span class="text-gray-800 lead-none inline-block font-semibold px-2 py-1 rounded-full">Commented By</span> 
+                                                <span class="text-green-500">{{ $comment->user->name }}</span>
+                                            </p>                                        
+                                        </div>   
+                                        @endif       
+                                
                                 @endforeach
 
                                 <!-- Dropdown menu for actions -->
@@ -64,7 +96,8 @@
                                                 @csrf
                                                 <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-200 w-full text-left">
                                                     Like
-                                                      <!-- Display the number of likes -->                                                    
+                                                      <!-- Display the number of likes -->     
+                                                                                                
                                                 </button>
                                             </form>    
                                           <!-- Edit and Delete forms for posts owned by the active user -->
